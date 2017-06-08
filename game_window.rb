@@ -3,11 +3,13 @@ require 'pry'
 require 'pry-byebug'
 
 require_relative 'star'
+require_relative 'player'
 
 class GameWindow < Gosu::Window
 
 	def initialize(width = 800, height = 600, fullscreen = false)
 		super
+		@player = Player.new(self)
 		@background_stars = []
 		@moving_stars = []
 		create_background_stars
@@ -20,13 +22,13 @@ class GameWindow < Gosu::Window
 
 	def create_background_stars
 		50.times do
-			@background_stars << Star.new(x: rand(0..800), y: rand(0..600), velocity: 0)
+			@background_stars << Star.new(x: rand(800), y: rand(600), velocity: 0)
 		end
 	end
 
 	def create_moving_stars
-		50.times do
-			@moving_stars << Star.new(x: rand(0..800), y: rand(0..600), velocity: rand(0..2))
+		200.times do
+			@moving_stars << Star.new(x: rand(800), y: rand(600), velocity: rand(0.1..2.1))
 		end
 	end
 
@@ -35,11 +37,13 @@ class GameWindow < Gosu::Window
 	end
 
 	def draw
+		@player.draw
 		@background_stars.each { |star| star.draw }
 		@moving_stars.each { |star| star.draw }
 	end
 
 	def update
+		@player.update
 		@moving_stars.each do |star|
 			star.update
 			if star.x <= 0

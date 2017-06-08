@@ -1,7 +1,7 @@
 module Helpers
 
-	def media_path(file)
-    File.join(File.dirname(File.dirname(__FILE__)), 'media', file)
+	def self.media_path(file)
+    File.join(File.dirname(File.dirname(__FILE__)), 'space/media', file)
   end
 
 end

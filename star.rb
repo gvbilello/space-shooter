@@ -9,7 +9,7 @@ class Star
 		@y = args.fetch(:y)
 		@velocity = args.fetch(:velocity)
 		@color = Gosu::Color.argb(0xff_ffffff)
-		@image = Gosu::Image.new("star.png")
+		@image = Gosu::Image.new("media/star.png")
 	end
 
 	def draw
