@@ -27,13 +27,13 @@ class GameWindow < Gosu::Window
 	end
 
 	def create_moving_stars
-		200.times do
-			@moving_stars << Star.new(x: rand(800), y: rand(600), velocity: rand(0.1..2.1))
+		100.times do
+			@moving_stars << Star.new(x: rand(800), y: rand(600), velocity: rand(0.1..3.1))
 		end
 	end
 
 	def add_moving_star(star)
-		@moving_stars << Star.new(x: 800, y: star.y, velocity: star.velocity)
+		@moving_stars << Star.new(x: 800, y: star.y, velocity: rand(1.1..3.1))
 	end
 
 	def draw
