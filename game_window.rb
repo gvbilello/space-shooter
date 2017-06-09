@@ -1,7 +1,3 @@
-require 'gosu'
-require 'pry'
-require 'pry-byebug'
-
 require_relative 'star'
 require_relative 'player'
 

@@ -1,4 +1,8 @@
 require_relative 'helpers'
+require_relative 'player_projectile'
+
+require 'pry'
+require 'pry-byebug'
 
 class Player
 
@@ -8,6 +12,7 @@ class Player
 
 	SPRITE = Helpers.media_path('player_ship_large.png')
 	FRAME_DELAY = 60
+	PROJECTILE_DELAY = 120
 
 	def load_animation(window)
 		Gosu::Image.load_tiles(window, SPRITE, 72, 30, false)
@@ -16,9 +21,20 @@ class Player
 	def initialize(window)
 		@window = window
 		@player = load_animation(@window)
-		@x = @window.height / 2
-		@y = 50
+		@x = 100
+		@y = @window.height / 2
 		@current_frame = 0
+		@projectiles = []
+	end
+
+	def fire_projectile
+		if @window.button_down?(Gosu::KbZ) && fire_another_projectile?
+			@projectiles << PlayerProjectile.new(@window, self)
+		end
+	end
+
+	def remove_projectile(projectile)
+		@projectiles.delete(projectile)
 	end
 
 	def can_move_left?
@@ -63,9 +79,15 @@ class Player
 
 	def draw
 		current_frame.draw(@x, @y, 1)
+		@projectiles.each { |projectile| projectile.draw }
 	end
 
 	def update
+		fire_projectile
+		@projectiles.each do |projectile|
+			projectile.update
+			remove_projectile(projectile) if projectile.x > 800
+		end
 		move_left
 		move_right
 		move_up
@@ -87,6 +109,14 @@ class Player
 		@last_frame ||= now
 		if (now - @last_frame) > FRAME_DELAY
 			@last_frame = now
+		end
+	end
+
+	def fire_another_projectile?
+		now = Gosu.milliseconds
+		@last_projectile ||= now
+		if (now - @last_projectile) > PROJECTILE_DELAY
+			@last_projectile = now
 		end
 	end
 
