@@ -8,11 +8,11 @@ class Player
 
 	include Helpers
 
-	attr_reader :x, :y
+	attr_reader :x, :y, :projectiles
 
 	SPRITE = Helpers.media_path('player_ship_large.png')
 	FRAME_DELAY = 60
-	PROJECTILE_DELAY = 120
+	PROJECTILE_DELAY = 300
 
 	def load_animation(window)
 		Gosu::Image.load_tiles(window, SPRITE, 72, 30, false)

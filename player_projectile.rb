@@ -22,4 +22,18 @@ class PlayerProjectile
 		@x += @velocity
 	end
 
+	private
+
+	def current_frame
+		@enemy[@current_frame]
+	end
+
+	def frame_expired?
+		now = Gosu.milliseconds
+		@last_frame ||= now
+		if (now - @last_frame) > FRAME_DELAY
+			@last_frame = now
+		end
+	end
+
 end
